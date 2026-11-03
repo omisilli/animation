@@ -5,7 +5,7 @@
  * Override from a theme by setting the variables, not by repeating rules:
  *   --pg-animation-duration   default 700ms, or data-pg-animation-duration
  *   --pg-animation-delay      default 0ms,   or data-pg-animation-delay
- *   --pg-animation-easing     default cubic-bezier(0.4, 0, 0.2, 1)
+ *   --pg-animation-easing     default cubic-bezier(0.16, 1, 0.3, 1)
  */
 
 /* Hidden until it plays — but only when JS can make it play. The old
@@ -21,7 +21,9 @@
     animation-name: var(--pg-animation-name);
     animation-duration: var(--pg-animation-duration, 700ms);
     animation-delay: var(--pg-animation-delay, 0ms);
-    animation-timing-function: var(--pg-animation-easing, cubic-bezier(0.4, 0, 0.2, 1));
+    /* Fast out of the gate, long soft landing — an entrance should not
+       start slow. The old curve (0.4, 0, 0.2, 1) eased in as well. */
+    animation-timing-function: var(--pg-animation-easing, cubic-bezier(0.16, 1, 0.3, 1));
     animation-fill-mode: both;
 }
 
@@ -65,5 +67,15 @@
 @keyframes pg-fade {
     from {
         opacity: 0;
+    }
+}
+
+/* A short slide from the right, for items inside a panel that is itself
+   moving — menu links in a drawer. Starting left of the item would push it
+   past the drawer's edge while the drawer slides in, and it looks clipped. */
+@keyframes pg-slideIn {
+    from {
+        opacity: 0;
+        transform: translate3d(24px, 0, 0);
     }
 }

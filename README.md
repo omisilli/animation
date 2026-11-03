@@ -8,7 +8,7 @@ script, one stylesheet, no dependencies, framework-agnostic.
 ```
 
 ```sh
-npm install github:omisilli/animation#v1.0.0
+npm install github:omisilli/animation#v1.1.0
 ```
 
 ```ts
@@ -30,16 +30,16 @@ Load both halves straight from jsDelivr — no install, and the page works
 when opened by double-clicking:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/omisilli/animation@v1.0.0/index.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/omisilli/animation@v1.1.0/index.css" />
 
 <script type="module">
-    import { initAnimation } from "https://cdn.jsdelivr.net/gh/omisilli/animation@v1.0.0/dist/index.js";
+    import { initAnimation } from "https://cdn.jsdelivr.net/gh/omisilli/animation@v1.1.0/dist/index.js";
 
     initAnimation();
 </script>
 ```
 
-Pin the version (`@v1.0.0`) on a live site. A pinned URL never changes;
+Pin the version (`@v1.1.0`) on a live site. A pinned URL never changes;
 `@1` follows the newest 1.x release.
 
 ## Files
@@ -81,20 +81,24 @@ Named by the direction of travel.
 | `fadeLeft`  | Slides in from the right edge |
 | `fadeRight` | Slides in from the left edge  |
 | `fade`      | Fades in where it stands      |
+| `slideIn`   | Slides 24px in from the right |
+
+`slideIn` is the short one for items inside something that is itself
+moving — links in a drawer that slides in.
 
 Add your own with the `pg-` prefix, then name it without:
 
 ```css
-@keyframes pg-slideIn {
+@keyframes pg-pop {
     from {
         opacity: 0;
-        transform: translate3d(24px, 0, 0);
+        transform: scale(0.6);
     }
 }
 ```
 
 ```html
-<a data-pg-animation="slideIn">…</a>
+<div data-pg-animation="pop">…</div>
 ```
 
 Keyframes set only `from`, so the element ends in its own state — its own
@@ -107,15 +111,15 @@ Change the defaults with variables, not by repeating rules:
 ```css
 :root {
     --pg-animation-duration: 900ms;
-    --pg-animation-easing: cubic-bezier(0.16, 1, 0.3, 1);
+    --pg-animation-easing: ease-out;
 }
 ```
 
-| Variable                  | Default                        |
-| ------------------------- | ------------------------------ |
-| `--pg-animation-duration` | `700ms`                        |
-| `--pg-animation-delay`    | `0ms`                          |
-| `--pg-animation-easing`   | `cubic-bezier(0.4, 0, 0.2, 1)` |
+| Variable                  | Default                         |
+| ------------------------- | ------------------------------- |
+| `--pg-animation-duration` | `700ms`                         |
+| `--pg-animation-delay`    | `0ms`                           |
+| `--pg-animation-easing`   | `cubic-bezier(0.16, 1, 0.3, 1)` |
 
 ## Replaying in menus and panels
 

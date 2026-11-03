@@ -16,9 +16,6 @@
                 --accent: #2f5bea;
                 --code-bg: #f0f0ec;
                 color-scheme: light dark;
-
-                /* The package's own variables, set by the page. */
-                --pg-animation-easing: cubic-bezier(0.16, 1, 0.3, 1);
             }
             @media (prefers-color-scheme: dark) {
                 :root {
@@ -169,13 +166,6 @@
             }
             .panel:not(.is-open) [data-pg-animation] {
                 animation-name: none;
-            }
-
-            @keyframes pg-slideIn {
-                from {
-                    opacity: 0;
-                    transform: translate3d(24px, 0, 0);
-                }
             }
 
             /* A keyframe of the page's own: data-pg-animation="pop". */
