@@ -1,0 +1,21 @@
+{
+    "name": "@plusguard/animation",
+    "version": "1.0.0",
+    "description": "Play a keyframe when an element becomes visible, from HTML attributes. IntersectionObserver-based, zero dependencies, framework-agnostic, respects reduced motion. CSS included.",
+    "type": "module",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
+        "./index.css": "./index.css"
+    },
+    "files": ["dist", "index.ts", "index.css", "README.md", "LICENSE"],
+    "sideEffects": ["*.css"],
+    "scripts": {
+        "build": "npx -p typescript tsc index.ts --outDir dist --declaration --target es2020 --module es2020 --lib dom,es2020 --strict"
+    },
+    "license": "MIT",
+    "author": "PlusGuard",
+    "repository": { "type": "git", "url": "git+https://github.com/omisilli/animation.git" },
+    "keywords": ["animation", "scroll", "reveal", "intersection-observer", "data-attributes", "vanilla"]
+}

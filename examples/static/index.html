@@ -1,0 +1,299 @@
+<!doctype html>
+<!-- Open by double-clicking: both halves load from jsDelivr, not from ../.. -->
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>animation — example</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/omisilli/animation@1/index.css" />
+        <style>
+            :root {
+                --bg: #f6f6f4;
+                --surface: #ffffff;
+                --fg: #18181b;
+                --muted: #6b6b72;
+                --line: #e4e4e0;
+                --accent: #2f5bea;
+                --code-bg: #f0f0ec;
+                color-scheme: light dark;
+
+                /* The package's own variables, set by the page. */
+                --pg-animation-easing: cubic-bezier(0.16, 1, 0.3, 1);
+            }
+            @media (prefers-color-scheme: dark) {
+                :root {
+                    --bg: #111113;
+                    --surface: #1b1b1f;
+                    --fg: #ededef;
+                    --muted: #9a9aa3;
+                    --line: #2c2c31;
+                    --accent: #7c9cff;
+                    --code-bg: #26262b;
+                }
+            }
+
+            * {
+                box-sizing: border-box;
+                margin: 0;
+            }
+            body {
+                font:
+                    16px/1.6 system-ui,
+                    -apple-system,
+                    "Segoe UI",
+                    Roboto,
+                    sans-serif;
+                color: var(--fg);
+                background: var(--bg);
+                overflow-x: hidden;
+            }
+            code {
+                font:
+                    0.85em/1.4 ui-monospace,
+                    SFMono-Regular,
+                    Menlo,
+                    monospace;
+                background: var(--code-bg);
+                padding: 0.15em 0.4em;
+                border-radius: 0.35em;
+            }
+            button {
+                font: inherit;
+                color: inherit;
+                cursor: pointer;
+                padding: 0.55rem 1rem;
+                border: 1px solid var(--line);
+                border-radius: 0.6rem;
+                background: var(--surface);
+            }
+
+            .bar {
+                position: sticky;
+                top: 0;
+                z-index: 10;
+                padding: 0.75rem 1.25rem;
+                font-weight: 700;
+                background: color-mix(in srgb, var(--bg) 85%, transparent);
+                backdrop-filter: blur(10px);
+                border-bottom: 1px solid var(--line);
+            }
+            main {
+                max-width: 52rem;
+                margin: 0 auto;
+                padding: 0 1.25rem 30vh;
+            }
+            .hero {
+                min-height: 80vh;
+                display: grid;
+                align-content: center;
+                gap: 1rem;
+            }
+            h1 {
+                font-size: clamp(2.5rem, 8vw, 4.5rem);
+                line-height: 1.05;
+                letter-spacing: -0.03em;
+            }
+            h2 {
+                font-size: 1.1rem;
+                margin: 6rem 0 0.5rem;
+            }
+            .note {
+                color: var(--muted);
+                margin-bottom: 1.5rem;
+            }
+            .lead {
+                color: var(--muted);
+                font-size: 1.15rem;
+                max-width: 36rem;
+            }
+
+            .grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+                gap: 1rem;
+            }
+            .card {
+                min-height: 9rem;
+                padding: 1.25rem;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-end;
+                gap: 0.25rem;
+                background: var(--surface);
+                border: 1px solid var(--line);
+                border-radius: 0.9rem;
+            }
+            .card strong {
+                font-size: 1.4rem;
+                letter-spacing: -0.01em;
+            }
+            .card span {
+                color: var(--muted);
+                font-size: 0.85rem;
+            }
+            .accent {
+                background: var(--accent);
+                border-color: var(--accent);
+                color: #fff;
+            }
+            .accent span {
+                color: rgb(255 255 255 / 0.75);
+            }
+
+            .list {
+                display: grid;
+                gap: 0.5rem;
+                padding: 0;
+                list-style: none;
+            }
+            .list li {
+                padding: 0.9rem 1.25rem;
+                background: var(--surface);
+                border: 1px solid var(--line);
+                border-radius: 0.7rem;
+            }
+
+            /* A panel that fades in place — see "Replaying" in the README. */
+            .panel {
+                margin-top: 1rem;
+                padding: 1.25rem;
+                display: grid;
+                gap: 0.5rem;
+                background: var(--surface);
+                border: 1px solid var(--line);
+                border-radius: 0.9rem;
+                transition: opacity 0.2s;
+            }
+            .panel:not(.is-open) {
+                opacity: 0;
+            }
+            .panel:not(.is-open) [data-pg-animation] {
+                animation-name: none;
+            }
+
+            @keyframes pg-slideIn {
+                from {
+                    opacity: 0;
+                    transform: translate3d(24px, 0, 0);
+                }
+            }
+
+            /* A keyframe of the page's own: data-pg-animation="pop". */
+            @keyframes pg-pop {
+                from {
+                    opacity: 0;
+                    transform: scale(0.6);
+                }
+                60% {
+                    transform: scale(1.06);
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <header class="bar">animation</header>
+
+        <main>
+            <section class="hero">
+                <h1 data-pg-animation="fadeDown">Play a keyframe when it comes into view.</h1>
+                <p class="lead" data-pg-animation="fade" data-pg-animation-delay="250">
+                    Every effect on this page is one attribute: <code>data-pg-animation</code>.
+                    Scroll down.
+                </p>
+            </section>
+
+            <h2>Built-in keyframes</h2>
+            <p class="note">Named by the direction of travel.</p>
+            <div class="grid">
+                <div class="card" data-pg-animation="fadeUp">
+                    <strong>fadeUp</strong><span>rises from below</span>
+                </div>
+                <div class="card" data-pg-animation="fadeDown">
+                    <strong>fadeDown</strong><span>drops from above</span>
+                </div>
+                <div class="card" data-pg-animation="fadeLeft">
+                    <strong>fadeLeft</strong><span>from the right edge</span>
+                </div>
+                <div class="card" data-pg-animation="fadeRight">
+                    <strong>fadeRight</strong><span>from the left edge</span>
+                </div>
+                <div class="card" data-pg-animation="fade">
+                    <strong>fade</strong><span>in place</span>
+                </div>
+                <div class="card" data-pg-animation="fadeUp" data-pg-animation-duration="2000">
+                    <strong>fadeUp</strong><span>data-pg-animation-duration="2000"</span>
+                </div>
+            </div>
+
+            <h2>Stagger</h2>
+            <p class="note">
+                The same keyframe with a growing <code>data-pg-animation-delay</code>.
+            </p>
+            <ul class="list">
+                <li data-pg-animation="fadeUp" data-pg-animation-delay="0">delay 0</li>
+                <li data-pg-animation="fadeUp" data-pg-animation-delay="100">delay 100</li>
+                <li data-pg-animation="fadeUp" data-pg-animation-delay="200">delay 200</li>
+                <li data-pg-animation="fadeUp" data-pg-animation-delay="300">delay 300</li>
+                <li data-pg-animation="fadeUp" data-pg-animation-delay="400">delay 400</li>
+            </ul>
+
+            <h2>Your own keyframe</h2>
+            <p class="note">
+                This page defines <code>@keyframes pg-pop</code> and writes
+                <code>data-pg-animation="pop"</code>.
+            </p>
+            <div class="grid">
+                <div class="card accent" data-pg-animation="pop">
+                    <strong>pop</strong><span>a keyframe of the page's own</span>
+                </div>
+                <div class="card accent" data-pg-animation="pop" data-pg-animation-delay="120">
+                    <strong>pop</strong><span>delay 120</span>
+                </div>
+                <div class="card accent" data-pg-animation="pop" data-pg-animation-delay="240">
+                    <strong>pop</strong><span>delay 240</span>
+                </div>
+            </div>
+
+            <h2>Replay</h2>
+            <p class="note">
+                With <code>data-pg-animation-repeat</code> it plays every time it comes back. Scroll
+                it out of view and back again.
+            </p>
+            <div class="grid">
+                <div class="card" data-pg-animation="fadeUp" data-pg-animation-repeat>
+                    <strong>fadeUp</strong><span>repeat</span>
+                </div>
+                <div
+                    class="card"
+                    data-pg-animation="pop"
+                    data-pg-animation-repeat
+                    data-pg-animation-delay="120"
+                >
+                    <strong>pop</strong><span>repeat</span>
+                </div>
+            </div>
+
+            <h2>A panel that fades in place</h2>
+            <p class="note">
+                It never leaves the viewport, so it is tied to the panel's own open class instead.
+            </p>
+            <button type="button" id="toggle">Toggle panel</button>
+            <div class="panel" id="panel">
+                <div data-pg-animation="slideIn" data-pg-animation-delay="0">First</div>
+                <div data-pg-animation="slideIn" data-pg-animation-delay="80">Second</div>
+                <div data-pg-animation="slideIn" data-pg-animation-delay="160">Third</div>
+            </div>
+        </main>
+
+        <script type="module">
+            import { initAnimation } from "https://cdn.jsdelivr.net/gh/omisilli/animation@1/dist/index.js";
+
+            initAnimation();
+
+            // The page's own open state — any code could do this.
+            document.getElementById("toggle").addEventListener("click", () => {
+                document.getElementById("panel").classList.toggle("is-open");
+            });
+        </script>
+    </body>
+</html>

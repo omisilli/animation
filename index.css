@@ -1,0 +1,69 @@
+/*
+ * animation — the CSS half. Plays the keyframe named by data-pg-animation
+ * once JS marks the element data-pg-animation-played="true".
+ *
+ * Override from a theme by setting the variables, not by repeating rules:
+ *   --pg-animation-duration   default 700ms, or data-pg-animation-duration
+ *   --pg-animation-delay      default 0ms,   or data-pg-animation-delay
+ *   --pg-animation-easing     default cubic-bezier(0.4, 0, 0.2, 1)
+ */
+
+/* Hidden until it plays — but only when JS can make it play. The old
+   class (qua-animationOpacity) hid it for good if the script never ran.
+   Users who ask for less motion are never hidden in the first place. */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+    [data-pg-animation]:not([data-pg-animation-played]) {
+        opacity: 0;
+    }
+}
+
+[data-pg-animation-played] {
+    animation-name: var(--pg-animation-name);
+    animation-duration: var(--pg-animation-duration, 700ms);
+    animation-delay: var(--pg-animation-delay, 0ms);
+    animation-timing-function: var(--pg-animation-easing, cubic-bezier(0.4, 0, 0.2, 1));
+    animation-fill-mode: both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    [data-pg-animation-played] {
+        animation: none;
+    }
+}
+
+/* Named by the direction of travel: fadeUp rises from below. The old
+   names were the other way round (its fadeDown rose from below).
+   Distances are the old ones. */
+@keyframes pg-fadeUp {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 150px, 0);
+    }
+}
+
+@keyframes pg-fadeDown {
+    from {
+        opacity: 0;
+        transform: translate3d(0, -45px, 0);
+    }
+}
+
+@keyframes pg-fadeLeft {
+    from {
+        opacity: 0;
+        transform: translate3d(150vw, 0, 0);
+    }
+}
+
+@keyframes pg-fadeRight {
+    from {
+        opacity: 0;
+        transform: translate3d(-150vw, 0, 0);
+    }
+}
+
+@keyframes pg-fade {
+    from {
+        opacity: 0;
+    }
+}
