@@ -1,11 +1,15 @@
 <!doctype html>
-<!-- Open by double-clicking: both halves load from jsDelivr, not from ../.. -->
+<!-- Open by double-clicking: both halves load from jsDelivr, not from ../..
+     Pinned to this release, so the page and the code always match. -->
 <html lang="en">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>animation — example</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/omisilli/animation@1/index.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/gh/omisilli/animation@v1.1.0/index.css"
+        />
         <style>
             :root {
                 --bg: #f6f6f4;
@@ -137,6 +141,16 @@
                 color: rgb(255 255 255 / 0.75);
             }
 
+            .added {
+                margin-top: 1rem;
+            }
+            .tips {
+                padding-left: 1.25rem;
+                color: var(--muted);
+            }
+            .tips li {
+                margin-top: 0.4rem;
+            }
             .list {
                 display: grid;
                 gap: 0.5rem;
@@ -210,8 +224,33 @@
                 <div class="card" data-pg-animation="fade">
                     <strong>fade</strong><span>in place</span>
                 </div>
+                <div class="card" data-pg-animation="slideIn">
+                    <strong>slideIn</strong><span>24px from the right — for items in a panel</span>
+                </div>
                 <div class="card" data-pg-animation="fadeUp" data-pg-animation-duration="2000">
                     <strong>fadeUp</strong><span>data-pg-animation-duration="2000"</span>
+                </div>
+            </div>
+
+            <h2>Variables</h2>
+            <p class="note">
+                Change the defaults with CSS variables — on <code>:root</code> for the whole page,
+                or on one element as here.
+            </p>
+            <div class="grid">
+                <div class="card" data-pg-animation="fadeUp">
+                    <strong>default</strong><span>700ms · cubic-bezier(0.16, 1, 0.3, 1)</span>
+                </div>
+                <div
+                    class="card"
+                    data-pg-animation="fadeUp"
+                    style="--pg-animation-easing: linear; --pg-animation-duration: 1200ms"
+                >
+                    <strong>linear</strong
+                    ><span>--pg-animation-easing · --pg-animation-duration</span>
+                </div>
+                <div class="card" data-pg-animation="fadeUp" style="--pg-animation-delay: 400ms">
+                    <strong>delayed</strong><span>--pg-animation-delay: 400ms</span>
                 </div>
             </div>
 
@@ -263,6 +302,14 @@
                 </div>
             </div>
 
+            <h2>Added later</h2>
+            <p class="note">
+                Elements added after the page loaded — a new route, a loaded list — are picked up on
+                their own and play like the rest.
+            </p>
+            <button type="button" id="add">Add a card</button>
+            <div class="grid added" id="added"></div>
+
             <h2>A panel that fades in place</h2>
             <p class="note">
                 It never leaves the viewport, so it is tied to the panel's own open class instead.
@@ -273,12 +320,34 @@
                 <div data-pg-animation="slideIn" data-pg-animation-delay="80">Second</div>
                 <div data-pg-animation="slideIn" data-pg-animation-delay="160">Third</div>
             </div>
+
+            <h2>Also</h2>
+            <ul class="tips">
+                <li>
+                    With <em>reduce motion</em> turned on in your system settings, nothing here is
+                    hidden and nothing moves.
+                </li>
+                <li>Without JavaScript, every element is simply visible.</li>
+                <li>
+                    Smooth-scrolling libraries that move the real page (Lenis) work as they are.
+                </li>
+            </ul>
         </main>
 
         <script type="module">
-            import { initAnimation } from "https://cdn.jsdelivr.net/gh/omisilli/animation@1/dist/index.js";
+            import { initAnimation } from "https://cdn.jsdelivr.net/gh/omisilli/animation@v1.1.0/dist/index.js";
 
             initAnimation();
+
+            // Rendered after load, like a list that arrives from a fetch.
+            let added = 0;
+            document.getElementById("add").addEventListener("click", () => {
+                const card = document.createElement("div");
+                card.className = "card";
+                card.dataset.pgAnimation = "fadeUp";
+                card.innerHTML = `<strong>card ${++added}</strong><span>added after load</span>`;
+                document.getElementById("added").append(card);
+            });
 
             // The page's own open state — any code could do this.
             document.getElementById("toggle").addEventListener("click", () => {
