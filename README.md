@@ -8,7 +8,7 @@ script, one stylesheet, no dependencies, framework-agnostic.
 ```
 
 ```sh
-npm install github:omisilli/animation#v1.1.0
+npm install @plusguard/animation
 ```
 
 ```ts
@@ -30,16 +30,16 @@ Load both halves straight from jsDelivr — no install, and the page works
 when opened by double-clicking:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/omisilli/animation@v1.1.0/index.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@plusguard/animation@1.1.1/index.css" />
 
 <script type="module">
-    import { initAnimation } from "https://cdn.jsdelivr.net/gh/omisilli/animation@v1.1.0/dist/index.js";
+    import { initAnimation } from "https://cdn.jsdelivr.net/npm/@plusguard/animation@1.1.1/dist/index.js";
 
     initAnimation();
 </script>
 ```
 
-Pin the version (`@v1.1.0`) on a live site. A pinned URL never changes;
+Pin the version (`@1.1.1`) on a live site. A pinned URL never changes;
 `@1` follows the newest 1.x release.
 
 ## Files
